@@ -1,7 +1,8 @@
 class Api::V1::MessagesController < ApplicationController
+  before_action :set_channel
+
   def index
-    channel = Channel.find_by(name: params[:channel_id])
-    messages = channel.messages.map do |message|
+    messages = @channel.messages.map do |message|
       {
         id: message.id,
         author: message.user.email,
@@ -18,7 +19,7 @@ class Api::V1::MessagesController < ApplicationController
 
   private
 
-  # def set_channel
-
-  # end
+  def set_channel
+    @channel = Channel.find_by(name: params[:channel_id])
+  end
 end
